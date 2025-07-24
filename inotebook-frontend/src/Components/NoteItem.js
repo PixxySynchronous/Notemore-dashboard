@@ -1,6 +1,7 @@
 import React, { useContext,useState } from 'react';
 import noteContext from '../Contexts/Notes/Notecontext';
 import './NoteItem.css'; 
+import NoteAIActions from './NoteAIActions';
 
 const NoteItem = (props) => {
   const context = useContext(noteContext);
@@ -14,14 +15,19 @@ setExpanded(!expanded);
 };
 
 const handleShareClick = () => {
-    setShowShareMenu(!showShareMenu);
-  };
+  const title = encodeURIComponent(note.title);
+  const desc = encodeURIComponent(note.description);
+  const socivaUrl = `http://localhost:3001/?title=${title}&desc=${desc}`;
+  window.open(socivaUrl, '_blank');
+};
 
-  const handleShareToMedia = () => {
-    setShowShareMenu(false);
-    // Replace this with your actual share logic
-    props.showAlert('Shared to Note Media!', 'success');
-  };
+const handleShareToMedia = () => {
+  const title = encodeURIComponent(note.title);
+  const desc = encodeURIComponent(note.description);
+  window.open(`http://localhost:3001/?title=${title}&desc=${desc}`, '_blank');
+};
+
+console.log("showAI in NoteItem:", props.showAI);
 
  return (
 <div className="card my-3" style={{ minHeight: "180px" }}>
@@ -43,9 +49,9 @@ const handleShareClick = () => {
     )}
 
     {/* Icons */}
-    <div className="mt-2 d-flex align-items-center gap-3">
+    <div className="mt-2 d-flex  align-items-center gap-4 ">
       <i
-        className="fa-solid fa-trash me-3"
+        className="fa-solid fa-trash "
         role="button"
         title="Delete"
         onClick={() => { deletenote(note._id); }}
@@ -63,7 +69,11 @@ const handleShareClick = () => {
         onClick={handleShareClick}
           ></i>
     </div>
-       
+       {props.showAI && (
+  <div className="mt-2">
+    <NoteAIActions noteId={note._id} noteContent={note.description} note={note} />
+  </div>
+)}
   </div>
 </div>
 );
