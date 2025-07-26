@@ -10,8 +10,6 @@ import {
 import Navbar from './Components/Navbar';
 import Home from './Components/Home';
 import Alert from './Components/Alert';
-import Login from './Components/Login';
-import Signup from './Components/Signup';
 import LandingPage from './Components/Landingpage';
 import Aienhancement from './Components/Aienhancement';
 import './App.css';
@@ -70,17 +68,6 @@ export default function App() {
                 <LandingPage />
               )
             }
-          />
-
-
-          {/* Login and Signup pages wrapped in container */}
-          <Route
-            path="/login"
-            element={<div className='container'><Login showAlert={showAlert} setIsAuthenticated={setIsAuthenticated} /></div>}
-          />
-          <Route
-            path="/signup"
-            element={<div className='container'><Signup showAlert={showAlert} setIsAuthenticated={setIsAuthenticated} /></div>}
           />
         </Routes>
         </div>

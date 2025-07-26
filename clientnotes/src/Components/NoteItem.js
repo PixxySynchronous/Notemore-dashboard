@@ -14,18 +14,16 @@ const toggleExpanded = () => {
 setExpanded(!expanded);
 };
 
-const handleShareClick = () => {
-  const title = encodeURIComponent(note.title);
-  const desc = encodeURIComponent(note.description);
-  const socivaUrl = `http://localhost:3001/?title=${title}&desc=${desc}`;
-  window.open(socivaUrl, '_blank');
+const handleCopyClick = async () => {
+  const textToCopy = `Title: ${note.title}\nDescription: ${note.description}`;
+  try {
+    await navigator.clipboard.writeText(textToCopy);
+    alert("Note copied to clipboard!");
+  } catch (err) {
+    console.error("Failed to copy text: ", err);
+  }
 };
 
-const handleShareToMedia = () => {
-  const title = encodeURIComponent(note.title);
-  const desc = encodeURIComponent(note.description);
-  window.open(`http://localhost:3001/?title=${title}&desc=${desc}`, '_blank');
-};
 
 console.log("showAI in NoteItem:", props.showAI);
 
@@ -63,10 +61,10 @@ console.log("showAI in NoteItem:", props.showAI);
         onClick={() => { updateNote(note); }}
       ></i>
       <i
-        className="fa-solid fa-share-nodes"
+        className="fa-solid fa-copy"
         role="button"
-        title="Share"
-        onClick={handleShareClick}
+        title="Copy"
+        onClick={handleCopyClick}
           ></i>
     </div>
        {props.showAI && (
